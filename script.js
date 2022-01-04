@@ -1,6 +1,10 @@
 var documentBody = document.querySelector('#result-content');
 var fetchButton = document.querySelector('#btn1');
+var documentData=document.createElement('h1')
+var resultCard = document.createElement('p');
+var forecastDisplay=document.createElement('h1')
 
+resultCard.classList.add('card', 'bg-light', 'text-dark', 'mb-3', 'p-3');
 
 //localStorage.setItem("Location",cityy)
 var APIKey="63d3703182d983d34bc087f52a0e6d35"
@@ -19,6 +23,18 @@ function getApi() {
     })
     .then(function (data) {
       console.log(data)
+      
+      documentData.textContent=document.querySelector("#location").value;
+     
+      resultCard.innerHTML='<strong>'+data.list[0].dt_txt+'</strong>'+'<br>' 
+      resultCard.innerHTML+='<strong>Temperature:</strong> ' + data.list[0].main.temp+ " C"+'<br/>' 
+      resultCard.innerHTML+='<strong>Umidity:</strong> ' + data.list[0].main.humidity +" %"+ '<br/>' 
+      resultCard.innerHTML+='<strong>Wind:</strong> ' + data.list[0].wind.speed + " MPH"+'<br/>' 
+      forecastDisplay.textContent="5 Days Average:"
+      
+      documentBody.append(documentData,resultCard,forecastDisplay)
+      
+      
     }
 
     )}
@@ -29,11 +45,17 @@ function getApi() {
       var cityy=document.querySelector("#location").value;
       localStorage.setItem("Location", cityy);
       
-      var documentData=document.createElement('h1')
-      documentData.textContent=localStorage.getItem("Location")
-      documentBody.append(documentData)
+      
+      
       getApi()
     })
+
+ 
+ 
+ 
+ //var titleEl = document.createElement('h3');
+ //titleEl.textContent = resultObj.title;
+
 
 
 //fetchButton.addEventListener('click', getApi);
