@@ -1,22 +1,21 @@
 var documentBody = document.querySelector('#result-content');
-var fetchButton = document.querySelector('#btn1');
+var searchButton = document.querySelector('#btn1');
 var documentData=document.createElement('h1')
-var resultCard = document.createElement('p');
 var forecastDisplay=document.createElement('h1')
 
-resultCard.classList.add('card', 'bg-light', 'text-dark', 'mb-3', 'p-3');
+var citiesEl=documentBody.querySelector('#previous-cities')
+var appendButton=document.querySelector('#btn2')
+
+
 
 //localStorage.setItem("Location",cityy)
 var APIKey="63d3703182d983d34bc087f52a0e6d35"
 
-
-
-
 function getApi() {
-  // fetch request gets a list of all the repos for the node.js organization
+  
   var city = localStorage.getItem("Location")
   var queryURL="http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey +"&units=metric"
-
+  //var queryURL1="https://api.openweathermap.org/data/2.5/onecall?q=" + city + "&exclude=minutely,hourly&appid=" + APIKey
   fetch(queryURL)
     .then(function (response) {
       return response.json();
@@ -25,58 +24,67 @@ function getApi() {
       console.log(data)
       
       documentData.textContent=document.querySelector("#location").value;
-     
-      resultCard.innerHTML='<strong>'+data.list[0].dt_txt+'</strong>'+'<br>' 
-      resultCard.innerHTML+='<strong>Temperature:</strong> ' + data.list[0].main.temp+ " C"+'<br/>' 
-      resultCard.innerHTML+='<strong>Umidity:</strong> ' + data.list[0].main.humidity +" %"+ '<br/>' 
-      resultCard.innerHTML+='<strong>Wind:</strong> ' + data.list[0].wind.speed + " MPH"+'<br/>' 
-      forecastDisplay.textContent="5 Days Average:"
+      documentBody.append(documentData)
+     //iterate to retrieve the forecast for the upcoming days  
+     for (var i=0;i<41;i+=8){
+       // console.log(i)
+      var resultCard = document.createElement('p');
       
-      documentBody.append(documentData,resultCard,forecastDisplay)
+      resultCard.classList.add('card', 'bg-light', 'text-dark', 'mb-3', 'p-3');
       
+      resultCard.innerHTML='<strong>'+data.list[i].dt_txt+'</strong>'+ '<br/>'
+      resultCard.innerHTML+='<strong>Temperature:</strong> ' + data.list[i].main.temp+ " <sup>o</sup>C"+'<br/>' 
+      resultCard.innerHTML+='<strong>Umidity:</strong> ' + data.list[i].main.humidity +" %"+ '<br/>' 
+      resultCard.innerHTML+='<strong>Wind:</strong> ' + data.list[i].wind.speed + " MPH"+'<br/>' 
+       //forecastDisplay.textContent="5 Days Average:"
+      
+      documentBody.append(resultCard)//forecastDisplay)
+      $('input[name="location"]').val('');
+     }
       
     }
 
     )}
 
+    function appendPastSearches(event) {
+      event.preventDefault();
+    
+      var cityName = localStorage.getItem("Location");
+      console.log(cityName)
+     
+    
+      var cityEl = $('p');
+      cityEl.textContent(cityName);
+    
+      console.log(cityEl)
+    
+      
+      // clear the form input element
+     // $('input[name="location"]').val('');
+      citiesEl.appendChild(cityEl);
+    }
 
-    fetchButton.addEventListener("click", function(event) {
+    
+appendButton.addEventListener("click",myFunction) 
+searchButton.addEventListener("click", function(event) {
       event.preventDefault();
       var cityy=document.querySelector("#location").value;
       localStorage.setItem("Location", cityy);
       
       
-      
       getApi()
+      
     })
 
  
- 
- 
- //var titleEl = document.createElement('h3');
- //titleEl.textContent = resultObj.title;
-
-
-
-//fetchButton.addEventListener('click', getApi);
-
-      //Loop over the data to generate a table, each table row will have a link to the repo url
-     /* for (var i = 0; i < data.length; i++) {
-        // Creating elements, tablerow, tabledata, and anchor
-        var createTableRow = document.createElement('tr');
-        var tableData = document.createElement('td');
-        var link = document.createElement('a');
-
-        // Setting the text of link and the href of the link
-        link.textContent = data[i].name
-        //link.href = data[i].html_url;
-
-        // Appending the link to the tabledata and then appending the tabledata to the tablerow
-        // The tablerow then gets appended to the tablebody
-        tableData.appendChild(link);
-        createTableRow.appendChild(tableData);
-        tableBody.appendChild(createTableRow);
-      }
-    });
-}
-*/
+    function myFunction(event) {
+      event.preventDefault()
+      var node = document.createElement("LI");
+      var textnode = document.createTextNode(localStorage.getItem("Location"));
+      node.appendChild(textnode);
+      document.getElementById("myList").appendChild(node);
+      node.addEventListener("click",getApi)
+    }
+    
+    
+    
