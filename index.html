@@ -17,24 +17,18 @@
     <div class="col-12 col-md-3 bg-light p-3">
       <h1 class="text-primary">Search for a city:</h1>
       <form id="search-form" class="mb-2">
-        <input id="location" class="form-input w-100" name ="location" type="text" placeholder="Insert Location Here.....">
+        <input id="location" class="form-input w-100" name ="location" type="text" onfocus="this.value=''" placeholder="Insert Location Here.....">
        <button id ="btn1" class="btn btn-info btn-block">Search</button>
        <br/>
-       <button id ="btn2" class="btn btn-info btn-block">Add location</button>
-      
-       <ul id ="previous-cities">
-        
-       </ul>
-       <ul id="myList" style="list-style:none">
-        
-      </ul>
+       <div id="citiesList"></div>
       </form>
     </div>
 
     <div class="col-12 col-md-9 p-3 text-light">
       <h2>Showing results for <span id="result-text"></span></h2>
-      <div id="result-content"></div>
-      <!--WHERE TO PUT THE RESULTS-->
+      <div id="result-content">
+       
+      </div>
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
