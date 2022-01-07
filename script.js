@@ -4,14 +4,10 @@ var documentData=document.createElement('h1')
 var cityEl=document.querySelector('#location')
 
 
-var appendButton=document.querySelector('#btn2')
-
-
-
 function getApi() {
   var APIKey="63d3703182d983d34bc087f52a0e6d35"
-  
   var city = localStorage.getItem("Location")
+  
   var queryURL="http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey +"&units=metric"
 
   fetch(queryURL)
@@ -20,9 +16,9 @@ function getApi() {
     })
     .then(function (data) {
       console.log(data)
-$("#result-content").html('<div></div>');  
+    $("#result-content").html('<div></div>');  
      documentBody.append(documentData)
-      documentData.textContent=document.querySelector("#location").value;
+      documentData.textContent=city
       
       //iterate to retrieve the forecast for the upcoming days  
      
@@ -38,20 +34,16 @@ $("#result-content").html('<div></div>');
       resultCard.innerHTML+='<strong>Wind:</strong> ' + data.list[i].wind.speed + " MPH"+'<br/>' 
       
       documentBody.append(resultCard)
-     
-      
-     
      }
     }
   )
-  }
+}
  
 searchButton.addEventListener("click", function(event) {
       event.preventDefault();
-      
+      //setting current city on localStorage
       var city=document.querySelector("#location").value;
       localStorage.setItem("Location", city);
-      
       
       getApi()
       
@@ -63,9 +55,19 @@ searchButton.addEventListener("click", function(event) {
     function appendCities(event) {
       event.preventDefault()
       var node = document.createElement("h1");
+      node.setAttribute("id","cityname")
       node.textContent=localStorage.getItem("Location");
       document.getElementById("citiesList").appendChild(node);
-      node.addEventListener("click",getApi)
+      
+      
+      node.addEventListener("click",function(){
+        document.getElementById('location').value = ""
+        var city=node.textContent 
+       localStorage.setItem("Location",city) 
+      
+        
+        getApi()
+      })
     }
     
     
