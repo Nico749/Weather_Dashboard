@@ -8,7 +8,7 @@ function getApi() {
   var APIKey="63d3703182d983d34bc087f52a0e6d35"
   var city = localStorage.getItem("Location")
   
-  var queryURL="http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey +"&units=metric"
+  var queryURL="https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey +"&units=metric"
 
   fetch(queryURL)
     .then(function (response) {
