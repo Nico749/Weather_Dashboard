@@ -21,7 +21,7 @@ Project is created with:
 * CSS
 
 ## Demo
-<a href="http://127.0.0.1:5501/index.html" target="_blank">Demo</a>
+<a href="https://nico749.github.io/Weather_Dashboard/" target="_blank">Demo</a>
 
 ## Working Application
 The following image shows the web application's appearance:
