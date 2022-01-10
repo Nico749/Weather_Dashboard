@@ -16,14 +16,13 @@ function getApi() {
     })
     .then(function (data) {
       console.log(data)
-    $("#result-content").html('<div></div>');  
+     $("#result-content").html('<div></div>');  
      documentBody.append(documentData)
-      documentData.textContent=city
+     documentData.textContent=city
       
-      //iterate to retrieve the forecast for the upcoming days  
+      //iterate to retrieve the forecast for the upcoming days and display them
      
      for (var i=0;i<41;i+=8){
-        //console.log(i)
         
       var resultCard = document.createElement('p');
       resultCard.classList.add('card', 'bg-light', 'text-dark', 'mb-3', 'p-3');
@@ -59,14 +58,12 @@ searchButton.addEventListener("click", function(event) {
       node.textContent=localStorage.getItem("Location");
       document.getElementById("citiesList").appendChild(node);
       
-      
       node.addEventListener("click",function(){
-        document.getElementById('location').value = ""
-        var city=node.textContent 
-       localStorage.setItem("Location",city) 
+      document.getElementById('location').value = ""
+      var city=node.textContent 
+      localStorage.setItem("Location",city) 
       
-        
-        getApi()
+      getApi()
       })
     }
     
